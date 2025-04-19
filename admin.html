@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard - My Storehouse</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f6f8;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #34495e;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+        .dashboard-header {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background-color: white;
+            flex: 1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .action-buttons button {
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            margin-right: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .action-buttons button.delete {
+            background-color: #c0392b;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 30px 0 15px 0;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="product_management.html"><i class="fas fa-box-open"></i> Products</a>
+        <a href="orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <a href="#"><i class="fas fa-warehouse"></i> Inventory</a>
+    </nav>
+    <main class="main-content">
+        <header class="dashboard-header">Dashboard Overview</header>
+        <section class="stats">
+            <div class="stat-card">
+                <h3>Total Sales</h3>
+                <p id="total-sales">$12,345</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Orders</h3>
+                <p id="total-orders">123</p>
+            </div>
+            <div class="stat-card">
+                <h3>Products</h3>
+                <p id="products-count">25</p>
+            </div>
+            <div class="stat-card">
+                <h3>Inventory Items</h3>
+                <p id="inventory-items">150</p>
+            </div>
+        </section>
+
+        <section>
+            <h3 class="section-title">Product Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Herb Growing Kit</td>
+                        <td>$49.99</td>
+                        <td>15</td>
+                    <td class="action-buttons">
+                        <button>Edit</button>
+                        <button class="delete">Delete</button>
+                        <button class="buy">Buy</button>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>Succulent Plant Set</td>
+                        <td>$29.99</td>
+                        <td>30</td>
+                        <td class="action-buttons">
+                            <button>Edit</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Organic Fertilizer</td>
+                        <td>$19.99</td>
+                        <td>50</td>
+                        <td class="action-buttons">
+                            <button>Edit</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    <section>
+        <h3 class="section-title">Orders Overview</h3>
+        <table id="orders-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Orders will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </section>
+    </main>
+    <script>
+        async function fetchProducts() {
+            try {
+                const response = await fetch('http://localhost:3000/api/products');
+                const products = await response.json();
+                populateProductTable(products);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+
+        function populateProductTable(products) {
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+            products.forEach(product => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input type="text" value="${product.name}" data-id="${product.id}" data-field="name" /></td>
+                    <td><input type="number" value="${product.price}" data-id="${product.id}" data-field="price" step="0.01" /></td>
+                    <td><input type="number" value="${product.stock}" data-id="${product.id}" data-field="stock" /></td>
+                    <td class="action-buttons">
+                        <button onclick="saveProduct(${product.id})">Save</button>
+                        <button class="delete" onclick="deleteProduct(${product.id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function saveProduct(id) {
+            const inputs = document.querySelectorAll(`input[data-id="${id}"]`);
+            const updatedProduct = {};
+            inputs.forEach(input => {
+                const field = input.getAttribute('data-field');
+                let value = input.value;
+                if (field === 'price' || field === 'stock') {
+                    value = Number(value);
+                }
+                updatedProduct[field] = value;
+            });
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedProduct)
+                });
+                if (response.ok) {
+                    alert('Product updated successfully');
+                    fetchProducts();
+                } else {
+                    alert('Failed to update product');
+                }
+            } catch (error) {
+                console.error('Error updating product:', error);
+            }
+        }
+
+        async function deleteProduct(id) {
+            // For simplicity, just set stock to 0 to "delete" product
+            try {
+                const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ stock: 0 })
+                });
+                if (response.ok) {
+                    alert('Product deleted (stock set to 0)');
+                    fetchProducts();
+                } else {
+                    alert('Failed to delete product');
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProducts();
+            fetchOrders();
+            fetchStats();
+        });
+
+        async function fetchOrders() {
+            try {
+                const response = await fetch('http://localhost:3000/api/orders');
+                const orders = await response.json();
+                populateOrdersTable(orders);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        }
+
+        function populateOrdersTable(orders) {
+            const tbody = document.querySelector('#orders-table tbody');
+            tbody.innerHTML = '';
+            orders.forEach(order => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>#${order.id}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.status}</td>
+                    <td>$${order.total.toFixed(2)}</td>
+                    <td>
+                        <select data-id="${order.id}">
+                            <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                        <button onclick="updateOrderStatus(${order.id})">Update</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function updateOrderStatus(id) {
+            const select = document.querySelector(`select[data-id="${id}"]`);
+            const newStatus = select.value;
+            try {
+                const response = await fetch(`http://localhost:3000/api/orders/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                if (response.ok) {
+                    alert('Order status updated successfully');
+                    fetchOrders();
+                    fetchStats();
+                } else {
+                    alert('Failed to update order status');
+                }
+            } catch (error) {
+                console.error('Error updating order status:', error);
+            }
+        }
+
+        async function fetchStats() {
+            try {
+                const response = await fetch('http://localhost:3000/api/stats');
+                const stats = await response.json();
+                document.getElementById('total-sales').textContent = `$${stats.totalSales.toFixed(2)}`;
+                document.getElementById('total-orders').textContent = stats.totalOrders;
+                document.getElementById('products-count').textContent = stats.productsCount;
+                document.getElementById('inventory-items').textContent = stats.inventoryItems;
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        }
+    </script>
+</body>
+</html>

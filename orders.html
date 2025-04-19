@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orders - Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f6f8;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #34495e;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+        .dashboard-header {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .action-buttons button {
+            background-color: #2980b9;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            margin-right: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .action-buttons button.delete {
+            background-color: #c0392b;
+        }
+        /* Shipping overlay styles reused */
+        .shipping-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .shipping-overlay.active {
+            display: flex;
+        }
+        .shipping-content {
+            background-color: #fff;
+            padding: 2.5rem 3rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            text-align: left;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .shipping-content h3 {
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #222;
+            font-size: 1.5rem;
+            letter-spacing: 0.03em;
+        }
+        .shipping-content label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #444;
+            font-size: 1rem;
+        }
+        .shipping-content input[type="text"],
+        .shipping-content input[type="tel"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            border: 1.5px solid #bbb;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .shipping-content input[type="text"]:focus,
+        .shipping-content input[type="tel"]:focus {
+            border-color: #884318;
+            outline: none;
+            box-shadow: 0 0 8px rgba(136,67,24,0.5);
+        }
+        .shipping-content .btn-primary {
+            width: 100%;
+            padding: 0.85rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #884318;
+            color: #fbfbfb;
+            font-weight: 700;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .shipping-content .btn-primary:hover {
+            background-color: #a65a3a;
+            transform: translateY(-2px);
+        }
+        .shipping-content .btn-secondary {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #ccc;
+            color: #333;
+            font-weight: 600;
+            border: none;
+            margin-top: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .shipping-content .btn-secondary:hover {
+            background-color: #bbb;
+            transform: translateY(-2px);
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="admin.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="product_management.html"><i class="fas fa-box-open"></i> Products</a>
+        <a href="orders.html" class="active"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <a href="#"><i class="fas fa-warehouse"></i> Inventory</a>
+    </nav>
+    <main class="main-content">
+        <header class="dashboard-header">Orders Overview</header>
+        <table id="orders-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Orders will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Shipping Details Overlay -->
+    <div id="shippingOverlay" class="shipping-overlay" role="dialog" aria-modal="true" aria-labelledby="shippingTitle">
+        <div class="shipping-content">
+            <h3 id="shippingTitle">Shipping Details</h3>
+            <form id="shippingForm" novalidate>
+                <div class="form-group">
+                    <label for="shippingAddress">Address:</label>
+                    <input type="text" id="shippingAddress" name="shippingAddress" placeholder="Enter your shipping address" required aria-required="true" />
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required aria-required="true" pattern="\\+?[0-9\\-\\s]{7,15}" title="Enter a valid phone number" />
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitShipping">Submit</button>
+                <button type="button" class="btn btn-secondary" id="closeShipping">Close</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function fetchOrders() {
+            try {
+                const response = await fetch('http://localhost:3000/api/orders');
+                const orders = await response.json();
+                populateOrdersTable(orders);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        }
+
+        function populateOrdersTable(orders) {
+            const tbody = document.querySelector('#orders-table tbody');
+            tbody.innerHTML = '';
+            orders.forEach(order => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>#${order.id}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.status}</td>
+                    <td>$${order.total.toFixed(2)}</td>
+                    <td>
+                        <select data-id="${order.id}">
+                            <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                        <button onclick="updateOrderStatus(${order.id})">Update</button>
+                        <button onclick="showShippingDetails(${order.id})" class="btn btn-secondary" style="margin-left: 8px;">View Shipping</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        let currentOrderId = null;
+        const shippingOverlay = document.getElementById('shippingOverlay');
+        const closeShippingBtn = document.getElementById('closeShipping');
+        const shippingForm = document.getElementById('shippingForm');
+
+        // Show shipping details overlay and populate form
+        async function showShippingDetails(orderId) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/orders/${orderId}`);
+                if (!response.ok) {
+                    alert('Failed to fetch order details.');
+                    return;
+                }
+                const order = await response.json();
+                document.getElementById('shippingAddress').value = order.shippingAddress || '';
+                document.getElementById('phoneNumber').value = order.phoneNumber || '';
+                shippingOverlay.classList.add('active');
+                currentOrderId = orderId;
+            } catch (error) {
+                console.error('Error fetching order details:', error);
+                alert('Error fetching order details.');
+            }
+        }
+
+        shippingForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!currentOrderId) {
+                alert('No order selected.');
+                return;
+            }
+            const address = document.getElementById('shippingAddress').value.trim();
+            const phone = document.getElementById('phoneNumber').value.trim();
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/orders/${currentOrderId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ shippingAddress: address, phoneNumber: phone })
+                });
+                if (response.ok) {
+                    alert('Shipping details updated successfully!');
+                    shippingOverlay.classList.remove('active');
+                    fetchOrders();
+                } else {
+                    alert('Failed to update shipping details.');
+                }
+            } catch (error) {
+                console.error('Error updating shipping details:', error);
+                alert('Error updating shipping details.');
+            }
+        });
+
+        async function updateOrderStatus(id) {
+            const select = document.querySelector(`select[data-id="${id}"]`);
+            const newStatus = select.value;
+            try {
+                const response = await fetch(`http://localhost:3000/api/orders/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                if (response.ok) {
+                    alert('Order status updated successfully');
+                    fetchOrders();
+                } else {
+                    alert('Failed to update order status');
+                }
+            } catch (error) {
+                console.error('Error updating order status:', error);
+            }
+        }
+
+        closeShippingBtn.addEventListener('click', () => {
+            shippingOverlay.classList.remove('active');
+        });
+
+        // Initialize orders table on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchOrders();
+        });
+    </script>
+</body>
+</html>
