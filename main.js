@@ -18,7 +18,7 @@
     // Fetch products from backend API
     async function fetchProducts() {
         try {
-            const response = await fetch('http://localhost:8080/api/products'); // Fetch products from API
+            const response = await fetch('http://estore-production-a6af.up.railway.app/api/products'); // Fetch products from API
             products = await response.json(); // Parse JSON response
             updateProductDisplay(currentProductIndex); // Update displayed product
             updateCartCount(); // Update cart item count
@@ -350,7 +350,7 @@
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/orders', {
+            const response = await fetch('http://estore-production-a6af.up.railway.app/api/orders', {
                 method: 'POST', // HTTP method
                 headers: {
                     'Content-Type': 'application/json' // Content type
